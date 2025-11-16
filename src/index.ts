@@ -1,18 +1,37 @@
 import express from "express";
 import cors from "cors";
+import "dotenv/config";
+
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.get("/", (req, res) => {
-  res.send("Backend TS funcionando!");
-});
-
-app.post("/send-contact", (req, res) => {
-  console.log("Recebido:", req.body);
-  res.json({ status: "ok", received: req.body });
-});
-
+const API_URL = process.env.API_URL!;
+const API_KEY = process.env.API_KEY!;
 const port = process.env.PORT || 3001;
+
+app.post("/enviar-contato", async (req, res) => {
+  try {
+    console.log("Recebido do front:", req.body);
+
+    const resposta = await fetch(`${API_URL}/contato/psa`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "API-KEY": API_KEY
+      },
+      body: JSON.stringify(req.body)
+    });
+
+    const data = await resposta.json();
+
+    return res.status(resposta.status).json(data);
+
+  } catch (err) {
+    console.error("Erro ao chamar API .NET:", err);
+    return res.status(500).json({ error: "Erro interno", details: err });
+  }
+});
+
 app.listen(port, () => console.log("Rodando na porta", port));
