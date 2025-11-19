@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import cors from "cors";
 import "dotenv/config";
 
@@ -15,7 +15,7 @@ app.use(cors({
   allowedHeaders: ["Content-Type"],
 }));
 
-app.post("/enviar-contato", async (req, res) => {
+app.post("/enviar-contato", async (req: Request, res: Response) => {
   try {
     console.log("Recebido do front:", req.body);
 

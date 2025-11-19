@@ -8,6 +8,10 @@
     "lib": ["ES2020"],
 
     "types": ["node"],
+
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+
     
     "sourceMap": false,
     "declaration": false,
